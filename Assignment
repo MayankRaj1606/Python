@@ -1,0 +1,100 @@
+import pandas as pd
+A. Part One
+# Step 1: Take the Excel file as input
+file_path = input("Enter the path of the Excel file: ")
+
+try:
+    # Step 2: Read the Excel file into a DataFrame
+    df = pd.read_excel(file_path)
+
+    # Check if the DataFrame contains 'Name', 'Start Date', and 'End Date' columns
+    if 'Employee Name' in df.columns and 'Pay Cycle Start Date' in df.columns and 'Pay Cycle End Date' in df.columns:
+        # Convert 'Start Date' and 'End Date' columns to datetime objects
+        df['Pay Cycle Start Date'] = pd.to_datetime(df['Pay Cycle Start Date'])
+        df['Pay Cycle End Date'] = pd.to_datetime(df['Pay Cycle End Date'])
+
+        # Initialize variables to track employees who worked for 7 consecutive days 
+# Since those have done 7 days of continous work they also worked for 13 days so I have compared it with 13
+        consecutive_days = 0
+        current_employee = None
+
+        # Iterate through the DataFrame
+        for index, row in df.iterrows():
+
+            if row['Pay Cycle End Date'] - row['Pay Cycle Start Date'] == pd.Timedelta(days=13):
+                current_employee = row['Employee Name']
+                print(f"Employee: {current_employee},Position: {row['Position ID']}")
+            else:
+                consecutive_days = 0
+
+except Exception as e:
+    print(f"An error occurred: {str(e)}")
+B. Part Two
+try:
+    df = pd.read_excel(file_path)
+except Exception as e:
+    print(f"Error reading the Excel file: {e}")
+    exit(1)
+
+# Step 3: Sort the DataFrame by employee name and shift start time
+df.sort_values(by=['Employee Name', 'Time'], inplace=True)
+
+# Step 4: Initialize variables to track the previous employee and shift end time
+prev_employee = None
+prev_shift_end = None
+
+# Step 5: Iterate through the DataFrame and identify employees with less than 10 hours between shifts
+for index, row in df.iterrows():
+    current_employee = row['Employee Name']
+    current_shift_start = row['Time']
+    
+    # Skip the first row since there's no previous shift to compare
+    if prev_employee is None:
+        prev_employee = current_employee
+        prev_shift_end = row['Time Out']
+        continue
+    
+    # Calculate the time between shifts
+    time_between_shifts = current_shift_start - prev_shift_end
+    
+    # Check if the time between shifts is less than 10 hours but greater than 1 hour
+    if 1 < time_between_shifts.total_seconds() / 3600 < 10:
+        print(f"Employee: {current_employee}, Position: {row['Position ID']}")
+
+    # Update previous employee and shift end time for the next iteration
+    prev_employee = current_employee
+    prev_shift_end = row['Time Out']
+C. Part Three
+try:
+    df = pd.read_excel(file_path)
+except Exception as e:
+    print("Error reading the Excel file:", str(e))
+    exit()
+
+# Step 2: Analyze the data
+def calculate_time_difference(row):
+    try:
+        start_time = pd.to_datetime(row['Time'])
+        end_time = pd.to_datetime(row['Time Out'])
+        time_difference = (end_time - start_time).total_seconds() / 3600  # Convert to hours
+        return time_difference
+    except Exception:
+        return None
+
+df['Time Difference'] = df.apply(calculate_time_difference, axis=1)
+
+# Filter employees with less than 10 hours between shifts but greater than 1 hour
+filtered_df = df[(df['Time Difference'] < 15) & (df['Time Difference'] > 13)]
+
+# Print the name and position of employees
+for index, row in filtered_df.iterrows():
+    print("Name:", row['Employee Name'])
+    # print("Position:", row['Position'])
+    print("Time Difference:", row['Time Difference'], "hours")
+    print()
+# Since there is no one with 14 hr shift so no output
+
+# Close the Excel file if needed
+# df.to_excel(file_path, index=False)
+
+
