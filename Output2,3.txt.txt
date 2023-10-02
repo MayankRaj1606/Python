@@ -1,0 +1,16 @@
+B> This is second part 
+Enter the path to the Excel file: /content/Assignment_Timecard.xlsx
+Employee: CEreira Jr, JEse, Position: WFS000456
+Employee: CaMaXaWE, CeghaW, Position: WFS000153
+Employee: CaMaXaWE, CeghaW, Position: WFS000153
+Employee: De Xa Cerda, IgWaciE, Position: WFS000318
+Employee: DeXgadiXXE REdarMe, ChrisMiaW S, Position: WFS000523
+Employee: GrACfieXd, CErWeXiAs, Position: WFS000515
+Employee: HaCiXMEW, DeaWMe DevEW, Position: WFS000536
+Employee: MraW, WiXXiaC Ha, Position: WFS000345
+Employee: MraW, WiXXiaC Ha, Position: WFS000345
+Employee: REdrigAez, GraWdEW AWgeX, Position: WFS000550
+Employee: Xee, XaCar, Position: WFS000200
+Employee: Xee, XaCar, Position: WFS000200
+Employee: Xee, XaCar, Position: WFS000200
+C. In third part as there is no one with 14hrs shift so no output
